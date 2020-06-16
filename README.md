@@ -1,6 +1,6 @@
 # Litz Wire Losses from FEM with MATLAB
 
-This **MATLAB** tool extract the **losses of a litz wire winding** from the field patterns.
+This **MATLAB** tool extract the **losses of a litz wire winding** from the **field patterns**.
 The field patterns can be extracted with any simulation software (e.g. COMSOL, ANSYS, OpenFOAM).
 The tool be used to compute the losses of different components, e.g., **inductors, transformers, and chokes**.
 
@@ -10,6 +10,10 @@ The following features and limitations exist:
 * The litz wire is composed of round strands
 * The litz wire is ideal (insulated and perfectly twisted strands)
 * The litz wire is defined with a fill factor, the exact strand position is not considered
+
+The following field patterns are required:
+* Integral of the square of the current density over the winding (for skin losses)
+* Integral of the square of the magnetic field over the winding (for proximity losses)
 
 ## Examples
 
