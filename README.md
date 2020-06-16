@@ -17,16 +17,17 @@ A simple circular air winding realized with litz wire is considered:
 * [run_winding_fem.m](run_winding_fem.m) - Extract the winding geometry, energy and field patterns from FEM
 * [run_winding_circuit.m](run_winding_circuit.m) - Extract the winding equivalent circuit (losses and inductance)
 
-### Winding Magnetic Field
+### Winding Current Density and Magnetic Field
 
 <p float="middle">
-    <img src="readme_img/fem.png" width="500">
+    <img src="readme_img/fem_current.png" width="350">
+    <img src="readme_img/fem_field.png" width="350">
 </p>
 
 ### Winding Equivalent Circuit
 
 <p float="middle">
-    <img src="readme_img/circuit.png" width="500">
+    <img src="readme_img/circuit.png" width="700">
 </p>
 
 ## Compatibility
