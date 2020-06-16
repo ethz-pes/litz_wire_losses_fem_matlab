@@ -1,10 +1,12 @@
 function P = get_losses_litz(f, J_square_int, H_square_int, sigma, d_litz, fill)
 % Compute the losses of a litz wire winding from given field patterns.
 %
-%    The losses are computed in the frequency domain with Bessel functions.
-%    The litz wire can feature an arbitrary shapes.
-%    The litz wire is composed of round strands.
-%    The litz wire is ideal (insulated and perfectly twisted strands).
+%    The following features and limitations exist: 
+%        - the losses are computed in the frequency domain with Bessel functions
+%        - the litz wire can feature an arbitrary shapes
+%        - the litz wire is composed of round strands
+%        - the litz wire is ideal (insulated and perfectly twisted strands)
+%        - the litz wire is defined with a fill factor, the exact strand position is not considered
 %
 %    The field pattern (current density and magnetic field) are given:
 %        - can be obtained from analytical approximations
@@ -16,7 +18,7 @@ function P = get_losses_litz(f, J_square_int, H_square_int, sigma, d_litz, fill)
 %    Magnetic field integral is defined as: int_winding(H_rms^2 dV).
 %
 %    References for the litz wire losses:
-%        - Guillod, T. / Litz Wire Losses: Effects of Twisting Imperfections / COMPé / 2017
+%        - Guillod, T. / Litz Wire Losses: Effects of Twisting Imperfections / COMPEL / 2017
 %        - Muehlethaler, J. / Modeling and Multi-Objective Optimization of Inductive Power Components / ETHZ / 2012
 %        - Ferreira, J.A. / Electromagnetic Modelling of Power Electronic Converters /Kluwer Academics Publishers / 1989.
 %

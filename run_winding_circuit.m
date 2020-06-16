@@ -4,7 +4,7 @@ function run_winding_circuit()
 %    This example is composed of two files:
 %        - a simple circular air winding realized with litz wire is considered.
 %        - run_winding_fem.m - extract the winding geometry, energy and field patterns from FEM
-%        - run_winding_circuit.m - extract the winding equivalent circuit
+%        - run_winding_circuit.m - extract the winding equivalent circuit  (losses and inductance)
 %
 %    The following properties are computed:
 %        - the inductance
