@@ -1,22 +1,47 @@
 function P = get_losses_litz(f, J_square_int, H_square_int, sigma, d_litz, fill)
-% compute the losses of a litz wire (arbitrary shape)
-%     f - vector with the frequency (DC is allowed)
-%     J_square_int - vector with the integral of the square of the current density (over the total surface: fill factor not considered)
-%     H_square_int - vector with the integral of the square of the magnetic field  (over the total surface: fill factor not considered)
-%     conductor_litz - struct with the definition of the conductor
-%         sigma - conductivity of the conductor (without insulation and air: only the conductor material)
-%         mu - permittivity of the conductor (without insulation and air: only the conductor material)
-%         d_litz - strand diameter
-%         fill - fill factor
-%     P - vector with the computed losses
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Compute the losses of a litz wire winding from given field patterns.
+%
+%    The losses are computed in the frequency domain with Bessel functions.
+%    The litz wire can feature an arbitrary shapes.
+%    The litz wire is composed of round strands.
+%    The litz wire is ideal (insulated and perfectly twisted strands).
+%
+%    The field pattern (current density and magnetic field) are given:
+%        - can be obtained from analytical approximations
+%        - can be obtained from simulations (FEM, mirroring, etc.)
+%
+%    The fill factor is defined as: A_copper/A_winding.
+%    RMS values are used for the field patterns.
+%    Current density integral is defined as: int_winding(J_rms^2 dV).
+%    Magnetic field integral is defined as: int_winding(H_rms^2 dV).
+%
+%    References for the litz wire losses:
+%        - Guillod, T. / Litz Wire Losses: Effects of Twisting Imperfections / COMPé / 2017
+%        - Muehlethaler, J. / Modeling and Multi-Objective Optimization of Inductive Power Components / ETHZ / 2012
+%        - Ferreira, J.A. / Electromagnetic Modelling of Power Electronic Converters /Kluwer Academics Publishers / 1989.
+%
+%    Parameters:
+%        f (vector): frequency vector for the losses
+%        J_square_int (vector): integral of the square of the RMS current density over the winding
+%        H_square_int (vector): integral of the square of the RMS magnetic field over the winding
+%        sigma (float): conductivity of the conductor material
+%        d_litz (float): strand diameter of the litz wire
+%        fill (float): fill factor of the winding
+%
+%    Returns:
+%        P (vector): vector with the spectral loss components
+%
+%    (c) 2016-2020, ETH Zurich, Power Electronic Systems Laboratory, T. Guillod
 
 % check the inputs
-assert(size(f,1)==1, 'invalid data')
-assert(size(J_square_int,1)==1, 'invalid data')
-assert(size(H_square_int,1)==1, 'invalid data')
-% assert(size(f,2)==size(J_square_int,2), 'invalid data')
-% assert(size(f,2)==size(H_square_int,2), 'invalid data')
+validateattributes(f, {'double'},{'row', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+validateattributes(J_square_int, {'double'},{'row', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+validateattributes(H_square_int, {'double'},{'row', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+validateattributes(sigma, {'double'},{'scalar', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+validateattributes(d_litz, {'double'},{'scalar', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+validateattributes(fill, {'double'},{'scalar', 'nonnegative', 'nonempty', 'nonnan', 'real','finite'});
+assert((length(J_square_int)==length(f))||(length(J_square_int)==1), 'invalid data: vector size')
+assert((length(H_square_int)==length(f))||(length(H_square_int)==1), 'invalid data: vector size')
 
 % compute the skin and proximity coefficients
 [FR, GR] = get_bessel_FR_GR(f, sigma, d_litz);
@@ -34,18 +59,28 @@ P = P_skin+P_proxy;
 
 end
 
-function [FR, GR] = get_bessel_FR_GR(f, sigma, d)
-% compute the skin and proximity coefficients
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [FR, GR] = get_bessel_FR_GR(f, sigma, d_litz)
+% Compute the skin and proximity coefficients.
+%
+%    Parameters:
+%        f (vector): frequency vector for the losses
+%        sigma (float): conductivity of the conductor material
+%        d_litz (float): strand diameter of the litz wire
+%
+%    Returns:
+%        FR (vector): coefficient for the skin effect losses
+%        GR (vector): coefficient for the proximity effect losses
 
 % constants
 mu0 = 4.*pi.*1e-7;
+
+% skin depth
 delta = 1./sqrt(pi.*mu0.*sigma.*f);
-chi = d./(sqrt(2).*delta);
+chi = d_litz./(sqrt(2).*delta);
 
 % coefficients
-FR = chi./(4.*sqrt(2)).*((KelvinBer(0,chi).*KelvinBei(1,chi)-KelvinBer(0,chi).*KelvinBer(1,chi))./(KelvinBer(1,chi).^2+KelvinBei(1,chi).^2)-(KelvinBei(0,chi).*KelvinBer(1,chi)+KelvinBei(0,chi).*KelvinBei(1,chi))./(KelvinBer(1,chi).^2+KelvinBei(1,chi).^2));
-GR = -chi.*pi.^2.*d.^2./(2.*sqrt(2)).*((KelvinBer(2,chi).*KelvinBer(1,chi)+KelvinBer(2,chi).*KelvinBei(1,chi))./(KelvinBer(0,chi).^2+KelvinBei(0,chi).^2)+(KelvinBei(2,chi).*KelvinBei(1,chi)-KelvinBei(2,chi).*KelvinBer(1,chi))./(KelvinBer(0,chi).^2+KelvinBei(0,chi).^2));
+FR = chi./(4.*sqrt(2)).*((ber(0,chi).*bei(1,chi)-ber(0,chi).*ber(1,chi))./(ber(1,chi).^2+bei(1,chi).^2)-(bei(0,chi).*ber(1,chi)+bei(0,chi).*bei(1,chi))./(ber(1,chi).^2+bei(1,chi).^2));
+GR = -chi.*pi.^2.*d_litz.^2./(2.*sqrt(2)).*((ber(2,chi).*ber(1,chi)+ber(2,chi).*bei(1,chi))./(ber(0,chi).^2+bei(0,chi).^2)+(bei(2,chi).*bei(1,chi)-bei(2,chi).*ber(1,chi))./(ber(0,chi).^2+bei(0,chi).^2));
 
 % correct the skin coefficient for DC
 FR(f==0) = 0.5;
@@ -53,18 +88,30 @@ GR(f==0) = 0.0;
 
 end
 
-function out = KelvinBer(v,x)
-% compute the bessel functions (real part)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function out = ber(v, x)
+% Compute the Kelbin-Bessel function (real part).
+%
+%    Parameters:
+%        v (scalar): order to be evaluated
+%        x (vector): value to be evaluated
+%
+%    Returns:
+%        out (vector): evaluated function
 
-out = real( besselj(v, x.*exp(3.*1i.*pi./4) ));
+out = real(besselj(v, x.*exp(3.*1i.*pi./4)));
 
 end
 
-function out = KelvinBei(v,x)
-% compute the bessel functions (imaginary part)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function out = bei(v, x)
+% Compute the Kelbin-Bessel function (imaginary part).
+%
+%    Parameters:
+%        v (scalar): order to be evaluated
+%        x (vector): value to be evaluated
+%
+%    Returns:
+%        out (vector): evaluated function
 
-out = imag( besselj(v, x.*exp(3.*1i.*pi./4) ));
+out = imag(besselj(v, x.*exp(3.*1i.*pi./4)));
 
 end
