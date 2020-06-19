@@ -1,8 +1,9 @@
 function run_winding_circuit()
 % Compute the equivalent circuit of a litz wire winding (inductance and resistance).
 %
+%    In this example, a simple circular air winding realized with litz wire is considered
+%
 %    This example is composed of two files:
-%        - a simple circular air winding realized with litz wire is considered.
 %        - run_winding_fem.m - extract the winding geometry, energy and field patterns from FEM
 %        - run_winding_circuit.m - extract the winding equivalent circuit  (losses and inductance)
 %
