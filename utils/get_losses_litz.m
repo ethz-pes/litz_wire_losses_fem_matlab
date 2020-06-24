@@ -80,9 +80,17 @@ mu0 = 4.*pi.*1e-7;
 delta = 1./sqrt(pi.*mu0.*sigma.*f);
 chi = d_litz./(sqrt(2).*delta);
 
+% Kelvin-Bessel functions
+ber_0 = ber(0, chi);
+ber_1 = ber(1, chi);
+ber_2 = ber(2, chi);
+bei_0 = bei(0, chi);
+bei_1 = bei(1, chi);
+bei_2 = bei(2, chi);
+
 % coefficients
-FR = chi./(4.*sqrt(2)).*((ber(0,chi).*bei(1,chi)-ber(0,chi).*ber(1,chi))./(ber(1,chi).^2+bei(1,chi).^2)-(bei(0,chi).*ber(1,chi)+bei(0,chi).*bei(1,chi))./(ber(1,chi).^2+bei(1,chi).^2));
-GR = -chi.*pi.^2.*d_litz.^2./(2.*sqrt(2)).*((ber(2,chi).*ber(1,chi)+ber(2,chi).*bei(1,chi))./(ber(0,chi).^2+bei(0,chi).^2)+(bei(2,chi).*bei(1,chi)-bei(2,chi).*ber(1,chi))./(ber(0,chi).^2+bei(0,chi).^2));
+FR = chi./(4.*sqrt(2)).*((ber_0.*bei_1-ber_0.*ber_1)./(ber_1.^2+bei_1.^2)-(bei_0.*ber_1+bei_0.*bei_1)./(ber_1.^2+bei_1.^2));
+GR = -chi.*pi.^2.*d_litz.^2./(2.*sqrt(2)).*((ber_2.*ber_1+ber_2.*bei_1)./(ber_0.^2+bei_0.^2)+(bei_2.*bei_1-bei_2.*ber_1)./(ber_0.^2+bei_0.^2));
 
 % correct the skin coefficient for DC
 FR(f==0) = 0.5;
@@ -91,7 +99,7 @@ GR(f==0) = 0.0;
 end
 
 function out = ber(v, x)
-% Compute the Kelbin-Bessel function (real part).
+% Compute the Kelvin-Bessel function (real part).
 %
 %    Parameters:
 %        v (scalar): order to be evaluated
@@ -105,7 +113,7 @@ out = real(besselj(v, x.*exp(3.*1i.*pi./4)));
 end
 
 function out = bei(v, x)
-% Compute the Kelbin-Bessel function (imaginary part).
+% Compute the Kelvin-Bessel function (imaginary part).
 %
 %    Parameters:
 %        v (scalar): order to be evaluated
