@@ -1,24 +1,30 @@
 # Litz Wire Losses with FEM and MATLAB
 
 This **MATLAB** tool extracts the **losses of a litz wire winding** from the **field patterns**.
+The losses are computed in the **frequency domain with Bessel functions**.
 The field patterns can be extracted with any simulation software (e.g. COMSOL, ANSYS, OpenFOAM).
 The tool be used to compute the losses of different components, e.g., **inductors, transformers, and chokes**.
 
-The following features and limitations exist: 
-* The losses are computed in the frequency domain with Bessel functions
-* The litz wire can feature an arbitrary shapes
+The method features several advantages:
+* A **reduced computational cost**, since the discrete strands are not modeled
+* The **mesh** can be **coarse**, independent of the skin depth
+* Method valid **up to several megahertz**
+* The litz wire can feature **an arbitrary shape**
+
+The following limitations exist:
+* The impact of the eddy current on the magnetic field is neglected
 * The litz wire is composed of round strands
 * The litz wire is ideal (insulated and perfectly twisted strands)
-* The litz wire is defined with a fill factor, the exact strand position is not considered
+* The litz wire is defined with a fill factor, the exact position of the strands is not considered
 
 The following field patterns are required:
 * Integral of the square of the current density over the winding (for skin losses)
 * Integral of the square of the magnetic field over the winding (for proximity losses)
 
-## Examples
+## Example
 
-A simple circular air winding realized with litz wire is considered:
-* [run_winding_fem.m](run_winding_fem.m) - Extract the winding geometry, energy and field patterns from FEM
+A simple circular air coil realized with litz wire is considered:
+* [run_winding_fem.m](run_winding_fem.m) - Compute homogenized material parameters for a litz wire (with FEM)
 * [run_winding_circuit.m](run_winding_circuit.m) - Extract the winding equivalent circuit (losses and inductance)
 
 ### Winding Current Density and Magnetic Field
