@@ -1,4 +1,4 @@
-# Litz Wire Losses from FEM with MATLAB
+# Litz Wire Losses with FEM and MATLAB
 
 This **MATLAB** tool extracts the **losses of a litz wire winding** from the **field patterns**.
 The field patterns can be extracted with any simulation software (e.g. COMSOL, ANSYS, OpenFOAM).
