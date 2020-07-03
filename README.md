@@ -42,7 +42,7 @@ The tool is tested with the following MATLAB setup:
 * Compatibility with GNU Octave not tested but probably easy to achieve.
 
 Any numerical simulation software (e.g. COMSOL, ANSYS, OpenFOAM) can be used for generating the field patterns.
-For the included example, COMSOL 5.4 has been used.
+For the included example, COMSOL 5.4 or 5.5 has been used.
 
 ## References
 
