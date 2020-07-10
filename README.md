@@ -53,9 +53,9 @@ For the included example, COMSOL 5.4 or 5.5 has been used.
 ## References
 
 References for the litz wire losses:
-* Guillod, T. et al. / Litz Wire Losses: Effects of Twisting Imperfections / IEEE COMPEL / 2017
-* Muehlethaler, J. / Modeling and Multi-Objective Optimization of Inductive Power Components / ETHZ Thesis / 2012
-* Ferreira, J. / Electromagnetic Modelling of Power Electronic Converters / Kluwer Academics Publishers / 1989.
+* Guillod, T. / Litz Wire Losses: Effects of Twisting Imperfections / 2017
+* Muehlethaler, J. / Modeling and Multi-Objective Optimization of Inductive Power Components / 2012
+* Ferreira, J. / Electromagnetic Modelling of Power Electronic Converters / 1989.
 
 ## Author
 
