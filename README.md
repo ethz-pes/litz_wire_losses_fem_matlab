@@ -1,5 +1,10 @@
 # Litz Wire Losses with FEM and MATLAB
 
+![license - BSD](https://img.shields.io/badge/license-BSD-green)
+![language - MATLAB](https://img.shields.io/badge/language-MATLAB-blue)
+![category - power electronics](https://img.shields.io/badge/category-power%20electronics-lightgrey)
+![status - maintained](https://img.shields.io/badge/status-maintained-green)
+
 This **MATLAB** tool extracts the **losses of a litz wire winding** from the **field patterns**.
 The losses are computed in the **frequency domain with Bessel functions**.
 The field patterns can be extracted with any simulation software (e.g. COMSOL, ANSYS, OpenFOAM).
