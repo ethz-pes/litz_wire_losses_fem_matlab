@@ -3,7 +3,7 @@
 ![license - BSD](https://img.shields.io/badge/license-BSD-green)
 ![language - MATLAB](https://img.shields.io/badge/language-MATLAB-blue)
 ![category - power electronics](https://img.shields.io/badge/category-power%20electronics-lightgrey)
-![status - maintained](https://img.shields.io/badge/status-maintained-green)
+![status - unmaintained](https://img.shields.io/badge/status-unmaintained-red)
 
 This **MATLAB** tool extracts the **losses of a litz wire winding** from the **field patterns**.
 The losses are computed in the **frequency domain with Bessel functions**.
