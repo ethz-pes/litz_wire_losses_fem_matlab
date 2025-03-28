@@ -26,8 +26,6 @@ The following field patterns are required:
 * Integral of the square of the current density over the winding (for skin losses)
 * Integral of the square of the magnetic field over the winding (for proximity losses)
 
-This tool is developed by the **Power Electronic Systems Laboratory at ETH Zurich** and is available under the **BSD License**. The code is also available on the ETH Data Archive.
-
 ## Example
 
 A simple circular air coil realized with litz wire is considered:
